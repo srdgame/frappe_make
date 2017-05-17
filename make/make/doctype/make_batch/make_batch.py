@@ -7,4 +7,6 @@ import frappe
 from frappe.model.document import Document
 
 class MakeBatch(Document):
-	pass
+	def validate(self):
+		serial_code = frappe.get_value("Make Item", self.item, "serial_code")
+		self.serial_code = "{0}-{1}".format(serial_code, self.batch_no)
