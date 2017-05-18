@@ -8,7 +8,7 @@ from frappe.model.document import Document
 from make.mac import mac_add
 
 class MACZone(Document):
-	def on_submit(self):
+	def validate(self):
 		self.current_address = self.start_address
 
 	def __get_one_mac(self):
