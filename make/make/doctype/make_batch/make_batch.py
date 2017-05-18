@@ -4,9 +4,12 @@
 
 from __future__ import unicode_literals
 import frappe
+from frappe import throw, _
 from frappe.model.document import Document
 
 class MakeBatch(Document):
 	def validate(self):
+		if len(self.batch_no) != 6:
+			throw(_("Batch NO length must be six!"))
 		serial_code = frappe.get_value("Make Item", self.item, "serial_code")
 		self.serial_code = "{0}-{1}".format(serial_code, self.batch_no)

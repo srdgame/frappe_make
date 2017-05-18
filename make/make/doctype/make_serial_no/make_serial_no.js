@@ -2,6 +2,15 @@
 // For license information, please see license.txt
 
 frappe.ui.form.on('Make Serial NO', {
+	setup: function(frm) {
+		frm.fields_dict['batch'].get_query  = function(){
+			return {
+				filters: {
+					"docstatus": 1
+				}
+			};
+		};
+	},
 	refresh: function(frm) {
 		frm.add_custom_button(__("Get MAC"), function() {
 			frm.events.get_mac(frm);
