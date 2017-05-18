@@ -3,6 +3,18 @@
 
 frappe.ui.form.on('Make Serial NO', {
 	refresh: function(frm) {
-
+		frm.add_custom_button(__("Get MAC"), function() {
+			frm.events.get_mac(frm);
+		}).removeClass("btn-default").addClass("btn-primary");
+	},
+	get_mac: function(frm) {
+		return frappe.call({
+			doc: frm.doc,
+			method: "get_mac",
+			freeze: true,
+			callback: function(r) {
+				if(!r.exc) frm.refresh_fields();
+			}
+		})
 	}
 });
