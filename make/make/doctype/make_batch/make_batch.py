@@ -15,7 +15,6 @@ class MakeBatch(Document):
 		self.serial_code = "{0}-{1}".format(serial_code, self.batch_no)
 
 	def batch_create(self, count):
-		print(self.name, count)
 		for i in range(count):
 			doc = frappe.get_doc({
 				"doctype": "Make Serial NO",
