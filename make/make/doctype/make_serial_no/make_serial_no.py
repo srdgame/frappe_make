@@ -48,3 +48,9 @@ class MakeSerialNO(Document):
 		for mac in mac_list:
 			self.append("mac", {"mac": mac})
 		self.save()
+
+
+@frappe.whitelist()
+def batch_create(batch, count):
+	doc = frappe.get_doc("Make Batch", batch)
+	return doc.batch_create(int(count))
