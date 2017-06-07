@@ -7,6 +7,6 @@ import frappe
 from frappe.model.document import Document
 
 
-class IOTLicense(Document):
+class DeviceLicense(Document):
 	def validate(self):
 		self.license_data = str(self.expire_date) + " AAAA"

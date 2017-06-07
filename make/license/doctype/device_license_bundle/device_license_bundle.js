@@ -1,7 +1,7 @@
 // Copyright (c) 2017, Dirk Chang and contributors
 // For license information, please see license.txt
 
-frappe.ui.form.on('IOT License Bundle', {
+frappe.ui.form.on('Device License Bundle', {
 	setup: function(frm) {
 		frm.fields_dict["source_type"].get_query = function(){
 			return {

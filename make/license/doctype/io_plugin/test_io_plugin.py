@@ -6,5 +6,5 @@ from __future__ import unicode_literals
 import frappe
 import unittest
 
-class TestIOTIOPlugin(unittest.TestCase):
+class TestIOPlugin(unittest.TestCase):
 	pass

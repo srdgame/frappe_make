@@ -6,5 +6,5 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 
-class IOTLicenseTypeDSPlugin(Document):
+class DeviceLicenseTypeDSPlugin(Document):
 	pass
