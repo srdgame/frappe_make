@@ -62,7 +62,7 @@
    "label": "Type", 
    "length": 0, 
    "no_copy": 0, 
-   "options": "IOT License Type", 
+   "options": "Device License Type",
    "permlevel": 0, 
    "precision": "", 
    "print_hide": 0, 

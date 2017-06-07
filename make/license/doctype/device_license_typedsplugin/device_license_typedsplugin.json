@@ -61,7 +61,7 @@
    "label": "Plugin", 
    "length": 0, 
    "no_copy": 0, 
-   "options": "IOT DS Plugin", 
+   "options": "DS Plugin",
    "permlevel": 0, 
    "precision": "", 
    "print_hide": 0, 
