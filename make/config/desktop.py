@@ -13,8 +13,8 @@ def get_data():
 		},
 		{
 			"module_name": "License",
-			"color": "#B8860B",
-			"icon": "fa fa-cloud",
+			"color": "blue",
+			"icon": "octicon octicon-rocket",
 			"type": "module",
 			"label": _("License")
 		}
