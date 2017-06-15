@@ -65,11 +65,9 @@ class DeviceLicenseBundle(Document):
 		r = session.post(url, data= {
 			'type': type_doc.get_type(),
 			'devices': devices
-		})
+		}).json()
 		for dev in self.devices:
-			doc = frappe.get_doc('Device License', dev.sn)
-			doc.set('license_data', r.json()[self.sn])
-			doc.save()
+			frappe.set_value("Device License", dev, 'license_data', r[dev])
 
 
 def get_license_data(doc_name, doc_doc=None):
