@@ -107,6 +107,13 @@ app_license = "MIT"
 # 	]
 # }
 
+scheduler_events = {
+	"hourly": [
+		"make.license.doctype.device_license.device_license.license_update",
+		"make.license.doctype.device_license_bundle.device_license_bundle.license_update",
+	],
+}
+
 # Testing
 # -------
 

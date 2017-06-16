@@ -50,6 +50,7 @@ class DeviceLicenseBundle(Document):
 		url = frappe.db.get_single_value("Device License Settings", "server_url")
 		username = frappe.db.get_single_value("Device License Settings", "username")
 		passwd = frappe.db.get_single_value("Device License Settings", "password")
+
 		session = requests.session()
 		session.auth = (username, passwd)
 		session.headers['Content-Type'] = 'application/json'
@@ -62,20 +63,28 @@ class DeviceLicenseBundle(Document):
 				'pcid': 'from_web',
 				'mac': '',
 			})
+
 		r = session.post(url, data= {
 			'type': type_doc.get_type(),
 			'devices': devices
 		}).json()
+
 		for dev in self.devices:
 			frappe.set_value("Device License", dev, 'license_data', r[dev])
 
 
 def get_license_data(doc_name, doc_doc=None):
 	doc = doc_doc or frappe.get_doc("Device License Bundle", doc_name)
-	return doc.update_license_data()
-#
-#
-# def license_update():
-# 	for doc in frappe.get_all("Device License Bundle", "name", filters={"license_need_update": 1}):
-# 		frappe.enqueue('make.license.doctype.device_license_bundle.device_license_bundle.get_license_data',
-# 						doc_name=doc.name)
+	try:
+		doc.update_license_data()
+	except Exception as ex:
+		doc.set("license_update_exception", 1)
+		doc.save()
+
+
+def license_update():
+	for doc in frappe.get_all("Device License Bundle", "name", filters={"license_update_exception": 1}):
+		frappe.enqueue('make.license.doctype.device_license_bundle.device_license_bundle.get_license_data',
+						doc_name=doc.name)
+		doc.set("license_update_exception", 0)
+		doc.save()

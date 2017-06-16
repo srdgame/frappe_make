@@ -22,11 +22,13 @@ class DeviceLicense(Document):
 		url = frappe.db.get_single_value("Device License Settings", "server_url")
 		username = frappe.db.get_single_value("Device License Settings", "username")
 		passwd = frappe.db.get_single_value("Device License Settings", "password")
+
 		session = requests.session()
 		session.auth = (username, passwd)
 		session.headers['Content-Type'] = 'application/json'
 		session.headers['Accept'] = 'application/json'
 		type_doc = frappe.get_doc('Device License Type', self.type)
+
 		r = session.post(url, data= {
 			'type': type_doc.get_type(),
 			'devices': [{
@@ -34,8 +36,12 @@ class DeviceLicense(Document):
 				'pcid': 'from_web',
 				'mac': '',
 			}]
-		})
-		self.set('license_data', r.json()[self.sn])
+		}).json()
+
+		if r[self.sn]:
+			self.set('license_data', r.json()[self.sn])
+			self.set('license_need_update', 0)
+			self.save()
 
 
 def get_license_data(doc_name, doc_doc=None):
