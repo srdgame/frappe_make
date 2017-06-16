@@ -5,7 +5,10 @@
 from __future__ import unicode_literals
 import frappe
 import requests
+import time
+import json
 from frappe import throw, _
+from frappe.utils.data import get_timestamp
 from frappe.model.document import Document
 
 
@@ -56,6 +59,8 @@ class DeviceLicenseBundle(Document):
 		session.headers['Content-Type'] = 'application/json'
 		session.headers['Accept'] = 'application/json'
 		type_doc = frappe.get_doc('Device License Type', self.type)
+		lic_type = type_doc.get_type(1, int(time.time()), get_timestamp(self.expire_date))
+
 		devices = []
 		for dev in self.devices:
 			devices.append({
@@ -64,10 +69,10 @@ class DeviceLicenseBundle(Document):
 				'mac': '',
 			})
 
-		r = session.post(url, data= {
-			'type': type_doc.get_type(),
+		r = session.post(url, data=json.dumps({
+			'type': lic_type,
 			'devices': devices
-		}).json()
+		})).json()
 
 		for dev in self.devices:
 			frappe.set_value("Device License", dev, 'license_data', r[dev])
@@ -77,14 +82,12 @@ def get_license_data(doc_name, doc_doc=None):
 	doc = doc_doc or frappe.get_doc("Device License Bundle", doc_name)
 	try:
 		doc.update_license_data()
+		frappe.set_value("Device License Bundle", "license_update_exception", 0)
 	except Exception as ex:
-		doc.set("license_update_exception", 1)
-		doc.save()
+		frappe.set_value("Device License Bundle", "license_update_exception", 1)
 
 
 def license_update():
 	for doc in frappe.get_all("Device License Bundle", "name", filters={"license_update_exception": 1}):
 		frappe.enqueue('make.license.doctype.device_license_bundle.device_license_bundle.get_license_data',
 						doc_name=doc.name)
-		doc.set("license_update_exception", 0)
-		doc.save()

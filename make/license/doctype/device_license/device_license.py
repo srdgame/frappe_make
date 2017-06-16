@@ -5,6 +5,9 @@
 from __future__ import unicode_literals
 import frappe
 import requests
+import time
+import json
+from frappe.utils.data import get_timestamp
 from frappe.model.document import Document
 
 
@@ -28,25 +31,30 @@ class DeviceLicense(Document):
 		session.headers['Content-Type'] = 'application/json'
 		session.headers['Accept'] = 'application/json'
 		type_doc = frappe.get_doc('Device License Type', self.type)
+		lic_type = type_doc.get_type(1, int(time.time()), get_timestamp(self.expire_date))
 
-		r = session.post(url, data= {
-			'type': type_doc.get_type(),
+		r = session.post(url, data=json.dumps({
+			'type': lic_type,
 			'devices': [{
 				'sn': self.sn,
 				'pcid': 'from_web',
 				'mac': '',
 			}]
-		}).json()
+		})).json()
 
-		if r[self.sn]:
-			self.set('license_data', r.json()[self.sn])
+		lic_data = r[self.sn]
+		if lic_data:
+			self.set('license_data', lic_data)
 			self.set('license_need_update', 0)
 			self.save()
 
 
 def get_license_data(doc_name, doc_doc=None):
 	doc = doc_doc or frappe.get_doc("Device License", doc_name)
-	return doc.update_license_data()
+	try:
+		return doc.update_license_data()
+	except Exception as ex:
+		return
 
 
 def license_update():
