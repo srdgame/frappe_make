@@ -45,9 +45,8 @@ class DeviceLicense(Document):
 
 		lic_data = r[self.sn]
 		if lic_data:
-			self.set('license_data', lic_data)
-			self.set('license_need_update', 0)
-			self.save()
+			frappe.db.set_value("Device License", self.name, 'license_data', lic_data)
+			frappe.db.set_value("Device License", self.name, "license_need_update", 0)
 
 
 def gen_license_data(doc_name, doc_doc=None):

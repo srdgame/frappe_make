@@ -27,9 +27,8 @@ class DeviceLicenseBundle(Document):
 			if d[0] not in sn_list:
 				frappe.delete_doc("Device License", d[0])
 			else:
-				frappe.set_value("Device License", d[0], "expire_date", self.expire_date)
-				frappe.set_value("Device License", d[0], "type", self.type)
-				frappe.set_value("Device License", d[0], "enabled", self.enabled)
+				frappe.db.set_value("Device License", d[0], "expire_date", self.expire_date)
+				frappe.db.set_value("Device License", d[0], "type", self.type)
 
 		for dev in self.devices:
 			if not frappe.get_value("Device License", dev.sn):
@@ -80,13 +79,14 @@ class DeviceLicenseBundle(Document):
 		})).json()
 
 		for dev in self.devices:
-			frappe.set_value("Device License", dev, 'license_data', r[dev])
+			frappe.db.set_value("Device License", dev.sn, 'license_data', r[dev.sn])
+
+		frappe.db.set_value("Device License Bundle", self.name, "license_need_update", 0)
 
 
 def gen_license_data(doc_name, doc_doc=None):
 	doc = doc_doc or frappe.get_doc("Device License Bundle", doc_name)
 	doc.update_license_data()
-	frappe.set_value("Device License Bundle", doc_name, "license_need_update", 0)
 
 
 def license_update():
