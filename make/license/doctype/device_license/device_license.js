@@ -18,9 +18,6 @@ frappe.ui.form.on('Device License', {
 			callback: function(r) {
 				if(!r.exc) {
 					frm.refresh_fields();
-					setTimeout(function () {
-						frm.refresh_fields();
-					}, 2000);
 				}
 			}
 		})
