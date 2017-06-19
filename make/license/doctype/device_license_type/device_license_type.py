@@ -39,20 +39,20 @@ class DeviceLicenseType(Document):
 		if self.io_plugin_limit != 0 or self.ds_plugin_limit != 0:
 			limit = {}
 
-			if self.io_plugin_limit:
+			if self.io_plugin_limit != 0:
 				l = []
 				for p in self.io_plugin_list:
 					l.append({
-						"enabled": p.enabled == 1,
+						"enable": p.enabled == 1,
 						"name": p.plugin
 					})
 				limit["io_list"] = l
 
-			if self.ds_plugin_limit:
+			if self.ds_plugin_limit != 0:
 				l = []
 				for p in self.ds_plugin_list:
 					l.append({
-						"enabled": p.enabled == 1,
+						"enable": p.enabled == 1,
 						"name": p.plugin
 					})
 				limit["ds_list"] = l
