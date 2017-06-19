@@ -37,7 +37,8 @@ class DeviceLicense(Document):
 			'type': lic_type,
 			'devices': [{
 				'sn': self.sn,
-				'pcid': 'from_web',
+				'pcid': self.pcid,
+				'only_pcid': self.only_pcid,
 				'mac': '',
 			}]
 		})).json()

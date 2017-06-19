@@ -35,6 +35,8 @@ class DeviceLicenseBundle(Document):
 				doc = frappe.get_doc({
 					"doctype": "Device License",
 					"sn": dev.sn,
+					"pcid": dev.pcid,
+					"only_pcid": dev.only_pcid,
 					"type": self.type,
 					"enabled": self.enabled,
 					"expire_date": self.expire_date,
@@ -64,8 +66,9 @@ class DeviceLicenseBundle(Document):
 		devices = []
 		for dev in self.devices:
 			devices.append({
-				'sn': self.sn,
-				'pcid': 'from_web',
+				'sn': dev.sn,
+				'pcid': dev.pcid,
+				'only_pcid': dev.only_pcid,
 				'mac': '',
 			})
 
