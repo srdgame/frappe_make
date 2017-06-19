@@ -62,7 +62,7 @@ class DeviceLicenseBundle(Document):
 		session.headers['Content-Type'] = 'application/json'
 		session.headers['Accept'] = 'application/json'
 		type_doc = frappe.get_doc('Device License Type', self.type)
-		lic_type = type_doc.get_type(1, int(time.time()), get_timestamp(self.expire_date))
+		lic_type = type_doc.get_type(1, get_timestamp(self.creation), get_timestamp(self.expire_date))
 
 		devices = []
 		for dev in self.devices:
