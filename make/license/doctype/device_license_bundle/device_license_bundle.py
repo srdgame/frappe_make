@@ -14,6 +14,7 @@ from frappe.model.document import Document
 
 class DeviceLicenseBundle(Document):
 	def validate(self):
+		self.license_need_update = 1
 		for dev in self.devices:
 			if frappe.get_value("Device License", dev.sn):
 				sid = frappe.get_value("Device License", dev.sn, "source_id")
@@ -44,8 +45,8 @@ class DeviceLicenseBundle(Document):
 					"source_id": self.name
 				}).insert()
 
-		frappe.set_value("Device License Bundle", self.name, "license_update_exception", 0)
-		frappe.enqueue('make.license.doctype.device_license_bundle.device_license_bundle.get_license_data',
+		if self.license_need_update == 1:
+			frappe.enqueue('make.license.doctype.device_license_bundle.device_license_bundle.gen_license_data',
 						doc_name=self.name, doc_doc=self)
 
 	def on_trash(self):
@@ -82,16 +83,13 @@ class DeviceLicenseBundle(Document):
 			frappe.set_value("Device License", dev, 'license_data', r[dev])
 
 
-def get_license_data(doc_name, doc_doc=None):
+def gen_license_data(doc_name, doc_doc=None):
 	doc = doc_doc or frappe.get_doc("Device License Bundle", doc_name)
-	try:
-		doc.update_license_data()
-		frappe.set_value("Device License Bundle", doc_name, "license_update_exception", 0)
-	except Exception as ex:
-		frappe.set_value("Device License Bundle", doc_name, "license_update_exception", 1)
+	doc.update_license_data()
+	frappe.set_value("Device License Bundle", doc_name, "license_need_update", 0)
 
 
 def license_update():
-	for doc in frappe.get_all("Device License Bundle", "name", filters={"license_update_exception": 1}):
-		frappe.enqueue('make.license.doctype.device_license_bundle.device_license_bundle.get_license_data',
+	for doc in frappe.get_all("Device License Bundle", "name", filters={"license_need_update": 1}):
+		frappe.enqueue('make.license.doctype.device_license_bundle.device_license_bundle.gen_license_data',
 						doc_name=doc.name)
