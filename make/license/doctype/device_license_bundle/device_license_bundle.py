@@ -44,6 +44,7 @@ class DeviceLicenseBundle(Document):
 					"source_id": self.name
 				}).insert()
 
+		frappe.set_value("Device License Bundle", self.name, "license_update_exception", 0)
 		frappe.enqueue('make.license.doctype.device_license_bundle.device_license_bundle.get_license_data',
 						doc_name=self.name, doc_doc=self)
 
@@ -85,9 +86,9 @@ def get_license_data(doc_name, doc_doc=None):
 	doc = doc_doc or frappe.get_doc("Device License Bundle", doc_name)
 	try:
 		doc.update_license_data()
-		frappe.set_value("Device License Bundle", "license_update_exception", 0)
+		frappe.set_value("Device License Bundle", doc_name, "license_update_exception", 0)
 	except Exception as ex:
-		frappe.set_value("Device License Bundle", "license_update_exception", 1)
+		frappe.set_value("Device License Bundle", doc_name, "license_update_exception", 1)
 
 
 def license_update():
