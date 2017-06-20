@@ -15,6 +15,8 @@ class DeviceLicense(Document):
 	def validate(self):
 		if not self.source_id:
 			self.license_need_update = 1
+		else:
+			self.license_need_update = 0
 
 	def on_update(self):
 		if self.license_need_update == 1:
@@ -45,8 +47,11 @@ class DeviceLicense(Document):
 
 		lic_data = r[self.sn]
 		if lic_data:
-			frappe.db.set_value("Device License", self.name, 'license_data', lic_data)
-			frappe.db.set_value("Device License", self.name, "license_need_update", 0)
+			#frappe.db.set_value("Device License", self.name, 'license_data', lic_data)
+			#frappe.db.set_value("Device License", self.name, "license_need_update", 0)
+			self.license_data = lic_data
+			self.license_need_update = 0
+			self.save()
 
 
 def gen_license_data(doc_name, doc_doc=None):

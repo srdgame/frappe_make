@@ -3,6 +3,15 @@
 
 frappe.ui.form.on('Device License Bundle', {
 	setup: function(frm) {
+		frm.fields_dict['type'].get_query  = function(){
+			return {
+				filters: {
+					"docstatus": 1
+				}
+			};
+		};
+	},
+	setup: function(frm) {
 		frm.fields_dict["source_type"].get_query = function(){
 			return {
 				filters: {
