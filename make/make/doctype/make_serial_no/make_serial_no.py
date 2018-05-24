@@ -4,6 +4,7 @@
 
 from __future__ import unicode_literals
 import frappe
+import random
 from frappe import throw, _
 from frappe.model.document import Document
 from frappe.model.naming import make_autoname
@@ -11,6 +12,13 @@ from frappe.model.naming import make_autoname
 
 class MakeSerialNO(Document):
 	def validate(self):
+		#### For PIN Code
+		if not self.pin_code:
+			pin_len = frappe.get_value("Make Item", self.item, "pin_length")
+			if pin_len > 0:
+				self.pin_code = self.make_pin_code(pin_len)
+
+		#### For MAC
 		count = frappe.get_value("Make Item", self.item, "mac_count")
 		if count <= 0:
 			return
@@ -30,6 +38,10 @@ class MakeSerialNO(Document):
 
 	def on_update(self):
 		self.get_mac()
+
+	def make_pin_code(self, pin_len):
+		fmt = '{' + ':0>{0}d'.format(pin_len) + '}'
+		return fmt.format(random.randint(1, 10**pin_len))
 
 	def get_mac(self):
 		count = frappe.get_value("Make Item", self.item, "mac_count")
