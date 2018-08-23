@@ -62,6 +62,11 @@ class MakeSerialNO(Document):
 		self.save()
 
 
+def on_doctype_update():
+	"""Add indexes in `Make Serial NO`"""
+	frappe.db.add_index("Make Serial NO", ["item", "batch"])
+
+
 @frappe.whitelist()
 def batch_create(batch, count):
 	doc = frappe.get_doc("Make Batch", batch)

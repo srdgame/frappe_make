@@ -22,3 +22,8 @@ class MakeBatch(Document):
 				"batch": self.name,
 			}).insert()
 		return "{0} Serial NO has been created!".format(count)
+
+
+def on_doctype_update():
+	"""Add indexes in `Make Batch`"""
+	frappe.db.add_index("Make Batch", ["item", "batch_no"])
