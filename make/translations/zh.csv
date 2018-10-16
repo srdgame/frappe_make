@@ -63,7 +63,7 @@ DocType: MAC UseZone,MAC UseZone,
 DocType: MAC Zone,MAC Zone,MAC地址区
 apps/make/make/make/doctype/make_serial_no/make_serial_no.py +33,MAC Zone is empty!,MAC地址区为空
 DocType: Make Item,MAC Zones,MAC地址区
-DocType: MAC UseZone,Make,
+DocType: MAC UseZone,Make,生产
 DocType: Make Batch,Make Batch,生产批次
 DocType: Make Item,Make Item,生产品目
 DocType: Make ItemMAC,Make ItemMAC,
