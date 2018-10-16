@@ -1,11 +1,11 @@
-DocType: MAC Zone,Amended From,修订源
+DocType: Device License Type,Amended From,修订源
 DocType: Make Serial NO,Batch,批次
 apps/make/make/make/doctype/make_serial_no/make_serial_no_list.js +11,Batch Create,批量增加
 DocType: Make Batch,Batch NO,批号
 apps/make/make/make/doctype/make_batch/make_batch.py +13,Batch NO length must be six!,批号的长度必须是6
 DocType: Make Batch,Batch Name,批次名称
 DocType: Device License Bundle,Bundle Name,批量名称
-DocType: Device License Type,Capacity Settings,容量设定
+DocType: Device License Type,Capaciity Settings,
 DocType: Device License Type,Cloud Data,云数据
 DocType: Device License Type,Cloud Remote Manage,云维护
 DocType: Device License Type,Cloud Virtual Port,云虚拟端口
@@ -28,7 +28,7 @@ DocType: Device License Settings,Device License Settings,设备授权设定
 DocType: Device License Type,Device License Type,设备授权类型
 DocType: Device License TypeDSPlugin,Device License TypeDSPlugin,
 DocType: Device License TypeIOPlugin,Device License TypeIOPlugin,
-apps/make/make/license/doctype/device_license_bundle/device_license_bundle.py +17,Device SN {0} is licensed by {1},设备{0}授权已经存在为{1}
+apps/make/make/license/doctype/device_license_bundle/device_license_bundle.py +22,Device SN {0} is licensed by {1},设备{0}授权已经存在为{1}
 DocType: Device License Bundle,Devices,设备列表
 DocType: Device License Type,DsPlugin Count,DS驱动种类
 DocType: Device License Bundle,Enabled,启用
@@ -43,22 +43,25 @@ DocType: Device License Type,IO Plugin Limit,IO驱动限制
 DocType: Device License Type,IO Plugin List,IO驱动列表
 DocType: Device License Type,IO Plugin Settings,IO驱动设定
 DocType: Device License Type,IO Tag Count,IO点数量
+apps/make/make/api.py +16,Incorrect HTTP Content-Type found {0},检测到不正确的Content-Type {0}
 DocType: Device License Bundle,Information,信息
 DocType: Device License Type,IoPlugin Count,IO驱动种类
 DocType: Make Batch,Item,产品
 DocType: Make Item,Item Name,产品名称
+apps/make/make/api.py +19,JSON Data not found!,未找到JSON数据
 DocType: Device License Type,LEvent,逻辑事件
 DocType: Device License,Licence Manager,授权管理员
 DocType: Device License,License,授权
 DocType: Device License,License Data,授权数据
 DocType: Device License,License Data Section,授权数据设定
-DocType: Device License Settings,License Server IP,授权服务器IP
+DocType: Device License,License Need Update,
+DocType: Device License Settings,License Server Settings,
 DocType: Make ItemMAC,MAC,
 DocType: Make Item,MAC Count,MAC数量
 DocType: Make Serial NO,MAC Section,MAC设定
 DocType: MAC UseZone,MAC UseZone,
 DocType: MAC Zone,MAC Zone,MAC地址区
-apps/make/make/make/doctype/make_serial_no/make_serial_no.py +25,MAC Zone is empty!,MAC地址区为空
+apps/make/make/make/doctype/make_serial_no/make_serial_no.py +33,MAC Zone is empty!,MAC地址区为空
 DocType: Make Item,MAC Zones,MAC地址区
 DocType: MAC UseZone,Make,
 DocType: Make Batch,Make Batch,生产批次
@@ -67,16 +70,24 @@ DocType: Make ItemMAC,Make ItemMAC,
 DocType: MAC Zone,Make Manager,生产管理员
 DocType: Make Serial NO,Make Serial NO,生产产品序列号
 DocType: MAC Zone,Make User,生产用户
+DocType: Device License Type,OPC API,
 DocType: Device License Type,OPC Client,OPC客户端
 DocType: Device License Type,OPC Server,OPC服务器
+DocType: Device License,Only PCID,
+DocType: Device License,PCID,
+DocType: Make Serial NO,PIN Code,
+DocType: Make Item,PIN Length,
+DocType: Device License Settings,Password,密码
 DocType: Device License TypeDSPlugin,Plugin,
 DocType: DS Plugin,Plugin Name,驱动名称
+apps/make/make/api.py +13,Request Method Must be POST!,只接受POST请求
 DocType: Device License,SN,设备序列号
 DocType: Device License Type,SWR Data,SWR.Data
 DocType: Device License Type,SWR SMS,SWR.SMS
 DocType: Device License Type,Script Calc,脚本计算
 DocType: Make Batch,Serial Code,序列码
 DocType: Device License Type,Serial Count,串口数量
+DocType: Device License Settings,Server URL,
 DocType: Device License,Source ID,源自ID
 DocType: Device License,Source Settings,源自设定
 DocType: Device License,Source Type,源自类型
@@ -84,6 +95,8 @@ DocType: MAC Zone,Start Address,起始地址
 DocType: Device License Type,Trigger,触发器
 DocType: Device License,Type,类型
 DocType: Device License Type,Type Name,类型名称
+apps/make/make/license/doctype/device_license/device_license.js +16,Update License Data,
+DocType: Device License Settings,Username,用户名
 DocType: MAC UseZone,Zone,
 DocType: MAC Zone,Zone Name,地址区名称
 DocType: Make Item,Zones,
