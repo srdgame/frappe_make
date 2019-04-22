@@ -21,7 +21,7 @@ class DeviceLicense(Document):
 	def on_update(self):
 		if self.license_need_update == 1:
 			frappe.enqueue('make.license.doctype.device_license.device_license.gen_license_data',
-							doc_name=self.name, doc_doc=self)
+							doc_name=self.name, doc_doc=self, enqueue_after_commit=True)
 
 	def update_license_data(self):
 		url = frappe.db.get_single_value("Device License Settings", "server_url")
@@ -65,4 +65,4 @@ def gen_license_data(doc_name, doc_doc=None):
 def license_update():
 	for doc in frappe.get_all("Device License", "name", filters={"license_need_update": 1}):
 		frappe.enqueue('make.license.doctype.device_license.device_license.gen_license_data',
-						doc_name=doc.name)
+						doc_name=doc.name, enqueue_after_commit=True)
